@@ -1,11 +1,23 @@
 {
-  "welcome_title": "Chào mừng đến với UpTodo",
-  "welcome_description": "Vui lòng đăng nhập hoặc tạo tài khoản mới để tiếp tục.",
-  "login": "Đăng nhập",
-  "create_account": "Tạo tài khoản",
   "or": "Hoặc",
   "skip": "Bỏ qua",
   "next": "Tiếp theo",
   "back": "Quay lại",
-  "get_stated": "Bắt đầu"
+  "login": "Đăng nhập",
+  "cancel": "Hủy bỏ",
+  "get_stated": "Bắt đầu",
+  "create_account": "Tạo tài khoản",
+
+  "welcome_title": "Chào mừng đến với UpTodo",
+  "welcome_description": "Vui lòng đăng nhập hoặc tạo tài khoản mới để tiếp tục.",
+
+  "category_title" : "Danh mục",
+  "category_title_create" : "Thêm mới danh mục",
+  "category_title_update" : "Cập nhật mới danh mục",
+  "category_name" : "Tên danh mục",
+  "category_name_hint" : "Tên danh mục",
+  "category_icon" : "Bểu tượng",
+  "category_icon_hint" : "Chọn từ thư vện",
+  "category_color" : "Màu sắc",
+  "category_create" : "Tạo danh mục"
 }

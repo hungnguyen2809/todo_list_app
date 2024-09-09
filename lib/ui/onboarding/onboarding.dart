@@ -48,7 +48,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         physics: const ClampingScrollPhysics(),
         children: [
           OnboardingView(
-            onboarding: OnboardingData.listOnboarding[0],
+            onboarding: AppData.listOnboarding[0],
             pageIndex: 0,
             onSkip: _onStated,
             onBack: null,
@@ -58,7 +58,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             onStated: null,
           ),
           OnboardingView(
-            onboarding: OnboardingData.listOnboarding[1],
+            onboarding: AppData.listOnboarding[1],
             pageIndex: 1,
             onSkip: _onStated,
             onBack: () {
@@ -70,7 +70,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             onStated: null,
           ),
           OnboardingView(
-            onboarding: OnboardingData.listOnboarding[2],
+            onboarding: AppData.listOnboarding[2],
             pageIndex: 2,
             onSkip: _onStated,
             onBack: () {

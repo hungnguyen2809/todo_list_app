@@ -1,11 +1,23 @@
 {
-  "welcome_title": "Welcome to UpTodo",
-  "welcome_description": "Please login to your account or create new account to continue",
-  "login": "Login",
-  "create_account": "Create Account",
   "or": "Or",
   "skip": "Skip",
   "next": "Next",
   "back": "Back",
-  "get_stated": "Get Stated"
+  "login": "Login",
+  "cancel": "Cancel",
+  "get_stated": "Get Stated",
+  "create_account": "Create Account",
+
+  "welcome_title": "Welcome to UpTodo",
+  "welcome_description": "Please login to your account or create new account to continue",
+
+  "category_title" : "Category",
+  "category_title_create" : "Create new category",
+  "category_title_update" : "Update new category",
+  "category_name" : "Category name",
+  "category_name_hint" : "Category name",
+  "category_icon" : "Category icon",
+  "category_icon_hint" : "Choose icon from library",
+  "category_color" : "Category color",
+  "category_create" : "Create Category"
 }

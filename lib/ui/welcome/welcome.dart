@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/contains/ui.dart';
+import 'package:todo_list_app/ui/navigation/navigation.dart';
 
 class WelcomeScreen extends StatelessWidget {
   final bool isFirstInstall;
@@ -31,8 +32,8 @@ class WelcomeScreen extends StatelessWidget {
           children: [
             _buildContentPage(),
             const Spacer(),
-            _buildLoginButton(),
-            _buildCreateButton(),
+            _buildLoginButton(context),
+            _buildCreateButton(context),
             _buildTranslateButton(context),
           ],
         ),
@@ -61,13 +62,21 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLoginButton() {
+  void _handleLogin(BuildContext context) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return const MainNavigation();
+    }));
+  }
+
+  Widget _buildLoginButton(BuildContext context) {
     return Container(
       height: 48,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          _handleLogin(context);
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: UIContains.colorPrimary,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
@@ -80,7 +89,7 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCreateButton() {
+  Widget _buildCreateButton(BuildContext context) {
     return Container(
       height: 48,
       width: double.infinity,
