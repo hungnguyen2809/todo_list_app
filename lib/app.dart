@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/contains/ui.dart';
-import 'package:todo_list_app/ui/onboarding/onboarding.dart';
+import 'package:todo_list_app/ui/splash/splash.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -8,13 +8,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Todo App",
+      title: "Todo List App",
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: UIContains.fontFamily,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: UIContains.colorPrimary),
       ),
-      home: const OnboardingScreen(),
+      home: const SplashScreen(),
     );
   }
 }

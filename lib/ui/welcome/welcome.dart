@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:todo_list_app/contains/ui.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+  final bool isFirstInstall;
+
+  const WelcomeScreen({super.key, required this.isFirstInstall});
+
+  void _onBack(BuildContext context) {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,11 +18,12 @@ class WelcomeScreen extends StatelessWidget {
       backgroundColor: UIContains.blackBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_ios_outlined, color: Colors.white)),
+        leading: isFirstInstall
+            ? IconButton(
+                onPressed: () => _onBack(context),
+                icon: const Icon(Icons.arrow_back_ios_outlined, color: Colors.white),
+              )
+            : null,
       ),
       body: SafeArea(
         child: Column(

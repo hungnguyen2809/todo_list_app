@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_list_app/data/data.dart';
 import 'package:todo_list_app/ui/onboarding/onboarding_view.dart';
 import 'package:todo_list_app/ui/welcome/welcome.dart';
@@ -23,9 +24,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     _pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 
+  Future<void> _saveOnboardingCompleted() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setBool("onboarding_completed", true);
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
+
   void _onStated() {
+    _saveOnboardingCompleted();
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return const WelcomeScreen();
+      return const WelcomeScreen(isFirstInstall: true);
     }));
   }
 
