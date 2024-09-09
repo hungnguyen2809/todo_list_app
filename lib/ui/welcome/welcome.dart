@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/contains/ui.dart';
 
@@ -32,6 +33,7 @@ class WelcomeScreen extends StatelessWidget {
             const Spacer(),
             _buildLoginButton(),
             _buildCreateButton(),
+            _buildTranslateButton(context),
           ],
         ),
       ),
@@ -44,13 +46,13 @@ class WelcomeScreen extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "Welcome to UpTodo",
+            "welcome_title".tr(),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white.withOpacity(0.87), fontSize: 32, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 26),
           Text(
-            "Please login to your account or create new account to continue",
+            "welcome_description".tr(),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white.withOpacity(0.67), fontSize: 16),
           ),
@@ -70,9 +72,9 @@ class WelcomeScreen extends StatelessWidget {
           backgroundColor: UIContains.colorPrimary,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         ),
-        child: const Text(
-          "LOGIN",
-          style: TextStyle(color: Colors.white, fontSize: 16),
+        child: Text(
+          "login".tr().toUpperCase(),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
     );
@@ -91,10 +93,44 @@ class WelcomeScreen extends StatelessWidget {
           side: BorderSide(width: 1, color: UIContains.colorPrimary),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         ),
-        child: const Text(
-          "CREATE ACCOUNT",
-          style: TextStyle(color: Colors.white, fontSize: 16),
+        child: Text(
+          "create_account".tr().toUpperCase(),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTranslateButton(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 28),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            onPressed: () {
+              final lang = context.locale.toString();
+              if (lang != 'vi') {
+                context.setLocale(const Locale("vi"));
+              }
+            },
+            icon: Image.asset(width: 24, height: 24, UIContains.lang_vi),
+          ),
+          Text(
+            "or".tr().toLowerCase(),
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          IconButton(
+              onPressed: () {
+                final lang = context.locale.toString();
+                if (lang != 'en') {
+                  context.setLocale(const Locale("en"));
+                }
+              },
+              icon: Image.asset(width: 24, height: 24, UIContains.lang_en))
+        ],
       ),
     );
   }

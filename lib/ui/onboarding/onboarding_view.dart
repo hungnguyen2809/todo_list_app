@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/contains/ui.dart';
 
@@ -50,7 +51,7 @@ class OnboardingView extends StatelessWidget {
       child: TextButton(
           onPressed: onSkip,
           child: Text(
-            "SKIP",
+            "skip".tr().toUpperCase(),
             style: TextStyle(
               fontSize: 16,
               fontFamily: UIContains.fontFamily,
@@ -139,7 +140,7 @@ class OnboardingView extends StatelessWidget {
           TextButton(
               onPressed: onBack,
               child: Text(
-                "BACK",
+                "back".tr().toUpperCase(),
                 style: TextStyle(
                   fontSize: 16,
                   fontFamily: UIContains.fontFamily,
@@ -159,7 +160,7 @@ class OnboardingView extends StatelessWidget {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
               ),
               child: Text(
-                pageIndex == 2 ? "GET STATED" : "NEXT",
+                pageIndex == 2 ? "get_stated".tr().toUpperCase() : "next".tr().toUpperCase(),
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white,
