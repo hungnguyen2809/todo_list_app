@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_list_app/ui/navigation/navigation.dart';
+import 'package:todo_list_app/ui/register/register.dart';
 
 import '../../contains/ui.dart';
 
@@ -154,6 +156,18 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void _handleLogin() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return const MainNavigation();
+    }));
+  }
+
+  void _handleRegister() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return const RegisterScreen();
+    }));
+  }
+
   Widget _buildActionButtons(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 38).copyWith(top: 70),
@@ -164,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 48,
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: _handleLogin,
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
                 backgroundColor: _isDisabledBtn ? UIContains.colorPrimary.withOpacity(0.5) : UIContains.colorPrimary,
@@ -230,6 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               GestureDetector(
+                onTap: _handleRegister,
                 child: Text(
                   "register".tr(),
                   style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),

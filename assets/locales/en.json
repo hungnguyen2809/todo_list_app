@@ -35,6 +35,8 @@
   "category_name_hint" : "Category name",
   "category_icon" : "Category icon",
   "category_icon_hint" : "Choose icon from library",
-  "category_color" : "Category color",
+  "category_icon_color" : "Icon color",
+  "category_background_color" : "Category color",
+  "category_preview" : "Category preview",
   "category_create" : "Create Category"
 }

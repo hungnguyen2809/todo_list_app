@@ -35,6 +35,8 @@
   "category_name_hint" : "Tên danh mục",
   "category_icon" : "Bểu tượng",
   "category_icon_hint" : "Chọn từ thư vện",
-  "category_color" : "Màu sắc",
+  "category_icon_color" : "Màu icon",
+  "category_background_color" : "Màu danh mục",
+  "category_preview" : "Xem trước",
   "category_create" : "Tạo danh mục"
 }

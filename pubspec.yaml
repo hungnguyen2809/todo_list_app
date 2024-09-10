@@ -12,6 +12,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.3.2
   easy_localization: ^3.0.7
+  realm: ^3.4.1
+  flutter_iconpicker: 3.2.4
+  flutter_colorpicker: ^1.1.0
 
 dev_dependencies:
   flutter_test:

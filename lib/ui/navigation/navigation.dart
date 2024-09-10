@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/contains/ui.dart';
 import 'package:todo_list_app/ui/calendar/calendar.dart';
+import 'package:todo_list_app/ui/category/category.dart';
 import 'package:todo_list_app/ui/focuse/focuse.dart';
 import 'package:todo_list_app/ui/home/home.dart';
 import 'package:todo_list_app/ui/profile/profile.dart';
@@ -36,6 +37,12 @@ class _MainNavigationState extends State<MainNavigation> {
     setState(() {
       _tabIndex = index;
     });
+  }
+
+  void _handlePressPlus() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return const CategoryScreen();
+    }));
   }
 
   @override
@@ -88,7 +95,7 @@ class _MainNavigationState extends State<MainNavigation> {
           color: UIContains.colorPrimary,
           borderRadius: BorderRadius.circular(32),
         ),
-        child: IconButton(onPressed: () {}, icon: const Icon(Icons.add, size: 30, color: Colors.white)),
+        child: IconButton(onPressed: _handlePressPlus, icon: const Icon(Icons.add, size: 30, color: Colors.white)),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: _tabs[_tabIndex],

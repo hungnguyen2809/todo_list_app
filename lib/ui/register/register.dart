@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_list_app/ui/login/login.dart';
 
 import '../../contains/ui.dart';
 
@@ -202,6 +203,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  void _handleLogin() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return const LoginScreen();
+    }));
+  }
+
   Widget _buildActionButtons(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 38).copyWith(top: 70),
@@ -278,6 +285,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               GestureDetector(
+                onTap: _handleLogin,
                 child: Text(
                   "login".tr(),
                   style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
