@@ -10,15 +10,19 @@ class SplashScreen extends StatelessWidget {
   Future<void> _checkAppState(BuildContext context) async {
     final isCompleted = await _isOnboardingCompleted();
     if (isCompleted) {
-      if (!context.mounted) return;
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const WelcomeScreen(isFirstInstall: false);
-      }));
+      Future.delayed(const Duration(seconds: 1), () {
+        if (!context.mounted) return;
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+          return const WelcomeScreen(isFirstInstall: false);
+        }));
+      });
     } else {
-      if (!context.mounted) return;
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const OnboardingScreen();
-      }));
+      Future.delayed(const Duration(seconds: 1), () {
+        if (!context.mounted) return;
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+          return const OnboardingScreen();
+        }));
+      });
     }
   }
 

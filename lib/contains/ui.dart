@@ -17,4 +17,7 @@ class UIContains {
   static String tab_bar_calendar = "assets/images/tab_bar_calendar.png";
   static String tab_bar_clock = "assets/images/tab_bar_clock.png";
   static String tab_bar_user = "assets/images/tab_bar_user.png";
+
+  static String ic_apple = "assets/images/ic_apple.png";
+  static String ic_google = "assets/images/ic_google.png";
 }

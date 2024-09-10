@@ -154,13 +154,19 @@ class _CategoryScreenState extends State<CategoryScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          TextButton(
+          SizedBox(
+            height: 48,
+            child: TextButton(
               onPressed: () {},
               child: Text(
                 "cancel".tr(),
                 style: TextStyle(fontSize: 16, color: UIContains.colorPrimary),
-              )),
-          ElevatedButton(
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 48,
+            child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: UIContains.colorPrimary,
@@ -169,7 +175,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
               child: Text(
                 "category_create".tr(),
                 style: const TextStyle(fontSize: 16, color: Colors.white),
-              )),
+              ),
+            ),
+          ),
         ],
       ),
     );

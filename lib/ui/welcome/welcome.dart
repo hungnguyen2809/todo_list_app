@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/contains/ui.dart';
-import 'package:todo_list_app/ui/navigation/navigation.dart';
+import 'package:todo_list_app/ui/login/login.dart';
+import 'package:todo_list_app/ui/register/register.dart';
 
 class WelcomeScreen extends StatelessWidget {
   final bool isFirstInstall;
@@ -63,8 +64,8 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   void _handleLogin(BuildContext context) {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return const MainNavigation();
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return const LoginScreen();
     }));
   }
 
@@ -89,6 +90,12 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
+  void _handleRegister(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return const RegisterScreen();
+    }));
+  }
+
   Widget _buildCreateButton(BuildContext context) {
     return Container(
       height: 48,
@@ -96,7 +103,9 @@ class WelcomeScreen extends StatelessWidget {
       margin: const EdgeInsets.only(top: 28),
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: OutlinedButton(
-        onPressed: () {},
+        onPressed: () {
+          _handleRegister(context);
+        },
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.transparent,
           side: BorderSide(width: 1, color: UIContains.colorPrimary),
