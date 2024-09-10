@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/contains/ui.dart';
 import 'package:todo_list_app/ui/calendar/calendar.dart';
-import 'package:todo_list_app/ui/category/category.dart';
 import 'package:todo_list_app/ui/focuse/focuse.dart';
 import 'package:todo_list_app/ui/home/home.dart';
 import 'package:todo_list_app/ui/profile/profile.dart';
+
+import 'widgets/create_task.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -40,9 +41,18 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   void _handlePressPlus() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return const CategoryScreen();
-    }));
+    // Navigator.push(context, MaterialPageRoute(builder: (context) {
+    //   return const CategoryScreen();
+    // }));
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: const CreateTaskWidget(),
+      ),
+    );
   }
 
   @override
@@ -95,7 +105,10 @@ class _MainNavigationState extends State<MainNavigation> {
           color: UIContains.colorPrimary,
           borderRadius: BorderRadius.circular(32),
         ),
-        child: IconButton(onPressed: _handlePressPlus, icon: const Icon(Icons.add, size: 30, color: Colors.white)),
+        child: IconButton(
+          onPressed: _handlePressPlus,
+          icon: const Icon(Icons.add, size: 30, color: Colors.white),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: _tabs[_tabIndex],

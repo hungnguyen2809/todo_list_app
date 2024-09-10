@@ -38,5 +38,9 @@
   "category_icon_color" : "Icon color",
   "category_background_color" : "Category color",
   "category_preview" : "Category preview",
-  "category_create" : "Create Category"
+  "category_create" : "Create Category",
+
+  "task_add": "Add task",
+  "task_name": "Task name",
+  "task_desc": "Task description"
 }

@@ -38,5 +38,9 @@
   "category_icon_color" : "Màu icon",
   "category_background_color" : "Màu danh mục",
   "category_preview" : "Xem trước",
-  "category_create" : "Tạo danh mục"
+  "category_create" : "Tạo danh mục",
+
+  "task_add": "Thêm nhiệm vụ",
+  "task_name": "Tên nhiệm vụ",
+  "task_desc": "Mô tả"
 }
