@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_list_app/data/model/category.dart';
 import 'package:todo_list_app/ui/category/choose_category.dart';
+import 'package:todo_list_app/ui/extensions/string_extension.dart';
+import 'package:todo_list_app/ui/priority/priority.dart';
 
 import '../../../contains/ui.dart';
 
@@ -12,6 +15,8 @@ class CreateTaskWidget extends StatefulWidget {
 }
 
 class _CreateTaskWidgetState extends State<CreateTaskWidget> {
+  late DateTime? _dateTime;
+  late CategoryModel? _category;
   late TextEditingController _nameController;
   late TextEditingController _descController;
 
@@ -19,6 +24,8 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
   void initState() {
     super.initState();
     //
+    _dateTime = null;
+    _category = null;
     _nameController = TextEditingController();
     _descController = TextEditingController();
   }
@@ -52,6 +59,8 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
           _buildTaskTitle(),
           _buildTaskNameField(),
           _buildTaskDescField(),
+          if (_dateTime != null) _buildTaskPreviewDate(_dateTime!),
+          if (_category != null) _buildTaskPreviewCate(_category!),
           _buildTaskActionButton(),
         ],
       ),
@@ -85,7 +94,7 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
 
   Widget _buildTaskDescField() {
     return Container(
-      margin: const EdgeInsets.only(top: 14, bottom: 35),
+      margin: const EdgeInsets.only(top: 14, bottom: 10),
       child: TextFormField(
         controller: _descController,
         style: const TextStyle(color: Colors.white, fontSize: 18),
@@ -101,11 +110,117 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
     );
   }
 
-  void _showChooseCategory() {
-    showGeneralDialog(
+  Widget _buildTaskPreviewDate(DateTime dateTime) {
+    return Container(
+      margin: const EdgeInsets.only(top: 14, bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "${"time".tr()} :",
+            style: const TextStyle(fontSize: 16, color: Colors.white),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            DateFormat("yyyy-MM-dd HH:mm").format(dateTime),
+            style: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.87)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTaskPreviewCate(CategoryModel category) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 35),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "${"category_title".tr()} :",
+            style: const TextStyle(fontSize: 16, color: Colors.white),
+          ),
+          Container(
+            width: 64,
+            height: 64,
+            margin: const EdgeInsets.only(bottom: 8, top: 10),
+            decoration: BoxDecoration(
+              color: category.bgColor?.toHexColor(),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: category.iconCodePoint != null
+                ? Icon(
+                    size: 35,
+                    color: category.iconColor?.toHexColor(),
+                    IconData(category.iconCodePoint!, fontFamily: "MaterialIcons"),
+                  )
+                : null,
+          ),
+          // Text(category.name, style: const TextStyle(fontSize: 14, color: Colors.white))
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showDatePicker() async {
+    final datePicker = await showDatePicker(
+      context: context,
+      firstDate: DateTime.now(), // min date
+      lastDate: DateTime.now().add(const Duration(days: 365)), // max date
+      builder: (context, child) => Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: ColorScheme.dark(primary: UIContains.colorPrimary, onSurface: Colors.white),
+        ),
+        child: child!,
+      ),
+    );
+    if (datePicker == null) return;
+
+    if (!context.mounted) return;
+    final timePicker = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (context, child) => Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: ColorScheme.dark(primary: UIContains.colorPrimary, onSurface: Colors.white),
+        ),
+        child: child!,
+      ),
+    );
+    if (timePicker == null) return;
+
+    datePicker.copyWith(hour: timePicker.hour, minute: timePicker.minute, second: 0);
+    setState(() {
+      _dateTime = datePicker;
+    });
+  }
+
+  Future<void> _showChooseCategory() async {
+    final result = await showGeneralDialog(
       context: context,
       pageBuilder: (context, animation, animation2) => const ChooseCategoryWidget(),
     );
+
+    if (result != null && result is CategoryModel) {
+      setState(() {
+        _category = result;
+      });
+    }
+  }
+
+  Future<void> _showChoosePriority() async {
+    final result = await showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation, animation2) => const TaskPriority(),
+    );
+
+    // if (result != null && result is int) {
+    //   setState(() {
+    //     _category = result;
+    //   });
+    // }
   }
 
   Widget _buildTaskActionButton() {
@@ -114,15 +229,21 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.timer_sharp, color: Colors.white.withOpacity(0.87)),
+          onPressed: _showDatePicker,
+          icon: Icon(
+            Icons.timer_sharp,
+            color: _dateTime != null ? UIContains.colorPrimary : Colors.white.withOpacity(0.87),
+          ),
         ),
         IconButton(
           onPressed: _showChooseCategory,
-          icon: Icon(Icons.tag, color: Colors.white.withOpacity(0.87)),
+          icon: Icon(
+            Icons.tag,
+            color: _category != null ? UIContains.colorPrimary : Colors.white.withOpacity(0.87),
+          ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: _showChoosePriority,
           icon: Icon(Icons.flag, color: Colors.white.withOpacity(0.87)),
         ),
         const Spacer(),

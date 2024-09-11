@@ -6,7 +6,7 @@ import '../../data/model/onboarding.dart';
 
 class OnboardingView extends StatelessWidget {
   final int pageIndex;
-  final Onboarding onboarding;
+  final OnboardingModel onboarding;
   final void Function()? onSkip;
   final void Function()? onNext;
   final void Function()? onBack;

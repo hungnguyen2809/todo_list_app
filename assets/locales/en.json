@@ -3,11 +3,14 @@
   "skip": "Skip",
   "next": "Next",
   "back": "Back",
+  "edit": "Edit",
   "cancel": "Cancel",
+  "save": "Save",
   "login": "Login",
   "register": "Register",
   "get_stated": "Get Stated",
   "create_account": "Create Account",
+  "time": "Time",
 
   "login_username": "Username",
   "login_username_hint": "Enter your Username",
@@ -39,8 +42,11 @@
   "category_background_color" : "Category color",
   "category_preview" : "Category preview",
   "category_create" : "Create Category",
+  "category_choose" : "Choose Category",
+  "category_add" : "Add Category",
 
   "task_add": "Add task",
   "task_name": "Task name",
-  "task_desc": "Task description"
+  "task_desc": "Task description",
+  "task_priority": "Task Priority"
 }

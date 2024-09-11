@@ -7,7 +7,7 @@ class _CategoryEntityRealm {
   @PrimaryKey()
   late ObjectId id;
   late String name;
-  late String? color;
+  late String? bgColor;
   late String? iconColor;
   late int? iconCodePoint;
 }

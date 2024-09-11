@@ -3,11 +3,14 @@
   "skip": "Bỏ qua",
   "next": "Tiếp theo",
   "back": "Quay lại",
+  "edit": "Chỉnh sửa",
   "cancel": "Hủy bỏ",
+  "save": "Lưu lại",
   "login": "Đăng nhập",
   "register": "Đăng ký",
   "get_stated": "Bắt đầu",
   "create_account": "Tạo tài khoản",
+  "time": "Thời gian",
 
   "login_username": "Tài khoản",
   "login_username_hint": "Nhập tài khoản của bạn",
@@ -39,8 +42,11 @@
   "category_background_color" : "Màu danh mục",
   "category_preview" : "Xem trước",
   "category_create" : "Tạo danh mục",
+  "category_choose" : "Chọn danh mục",
+  "category_add" : "Thêm danh mục",
 
   "task_add": "Thêm nhiệm vụ",
   "task_name": "Tên nhiệm vụ",
-  "task_desc": "Mô tả"
+  "task_desc": "Mô tả",
+  "task_priority": "Độ ưu tiên"
 }

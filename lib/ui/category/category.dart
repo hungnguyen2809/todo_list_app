@@ -4,11 +4,15 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:realm/realm.dart';
 import 'package:todo_list_app/contains/ui.dart';
+import 'package:todo_list_app/data/model/category.dart';
 import 'package:todo_list_app/entities/realm/category_entity_realm.dart';
 import 'package:todo_list_app/ui/extensions/color_extension.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key});
+  final bool isCreate;
+  final CategoryModel? categoryModel;
+
+  const CategoryScreen({super.key, required this.isCreate, this.categoryModel});
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -16,9 +20,9 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   // late int _colorIndex;
-  late Color _colorSelected;
   late String _categoryName;
   late Color _bgColorSelected;
+  late Color _iconColorSelected;
   late IconData? _iconSelected;
   late TextEditingController _categoryNameController;
 
@@ -26,12 +30,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
   void initState() {
     super.initState();
 
-    // _colorIndex = 0;
-    _categoryName = '';
-    _iconSelected = null;
-    _colorSelected = const Color(0xFf9B009E);
-    _bgColorSelected = const Color(0xFFFC80FF);
     _categoryNameController = TextEditingController();
+
+// _colorIndex = 0;
+    _categoryName = widget.categoryModel?.name ?? '';
+    _categoryNameController.text = widget.categoryModel?.name ?? '';
+    _iconSelected = widget.categoryModel?.iconCodePoint != null
+        ? IconData(widget.categoryModel!.iconCodePoint!, fontFamily: "MaterialIcons")
+        : null;
+    _iconColorSelected =
+        widget.categoryModel?.iconColor != null ? widget.categoryModel!.iconColor!.toColor()! : const Color(0xFf9B009E);
+    _bgColorSelected =
+        widget.categoryModel?.bgColor != null ? widget.categoryModel!.bgColor!.toColor()! : const Color(0xFf9B009E);
   }
 
   @override
@@ -42,7 +52,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         backgroundColor: UIContains.blackBackground,
         centerTitle: false,
         title: Text(
-          "category_title_create".tr(),
+          widget.isCreate ? "category_title_create".tr() : "category_title_update".tr(),
           style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
       ),
@@ -104,7 +114,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   void _handleChooseIcon() async {
     IconData? icon = await FlutterIconPicker.showIconPicker(
       context,
-      iconPackModes: [IconPack.material, IconPack.cupertino],
+      iconPackModes: [IconPack.material],
     );
 
     setState(() {
@@ -152,10 +162,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
         return AlertDialog(
           content: SingleChildScrollView(
             child: ColorPicker(
-              pickerColor: _colorSelected,
+              pickerColor: _iconColorSelected,
               onColorChanged: (Color color) {
                 setState(() {
-                  _colorSelected = color;
+                  _iconColorSelected = color;
                 });
               },
             ),
@@ -183,7 +193,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 height: 36,
                 margin: const EdgeInsets.only(right: 12),
                 decoration: BoxDecoration(
-                  color: _colorSelected,
+                  color: _iconColorSelected,
                   borderRadius: BorderRadius.circular(18),
                 ),
               ),
@@ -306,7 +316,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   color: _bgColorSelected,
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Icon(_iconSelected, color: _colorSelected, size: 35),
+                child: Icon(_iconSelected, color: _iconColorSelected, size: 35),
               ),
               Text(
                 _categoryName,
@@ -319,7 +329,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   }
 
-  void _handleCreateCategory() async {
+  void _handleAddEditCategory() async {
     if (_categoryName.trim().isEmpty || _iconSelected == null) {
       const snackBar = SnackBar(
         content: Text(
@@ -335,43 +345,57 @@ class _CategoryScreenState extends State<CategoryScreen> {
       final config = Configuration.local([CategoryEntityRealm.schema]);
       final realm = Realm(config);
 
-      final category = CategoryEntityRealm(
-        ObjectId(),
-        _categoryName.trim(),
-        color: _bgColorSelected.toHex(),
-        iconColor: _colorSelected.toHex(),
-        iconCodePoint: _iconSelected?.codePoint,
-      );
+      if (widget.isCreate) {
+        final category = CategoryEntityRealm(
+          ObjectId(),
+          _categoryName.trim(),
+          bgColor: _bgColorSelected.toHex(),
+          iconColor: _iconColorSelected.toHex(),
+          iconCodePoint: _iconSelected?.codePoint,
+        );
 
-      await realm.writeAsync(() {
-        realm.add(category);
-      });
-      realm.close();
+        await realm.writeAsync(() {
+          realm.add(category);
+        });
+        realm.close();
 
-      const snackBar = SnackBar(
-        backgroundColor: Color(0xFFf8fff8),
+        _categoryNameController.text = '';
+        // reset data
+        setState(() {
+          _categoryName = '';
+          _iconSelected = null;
+          _iconColorSelected = const Color(0xFf9B009E);
+          _bgColorSelected = const Color(0xFFFC80FF);
+        });
+      } else {
+        final category = realm.find<CategoryEntityRealm>(ObjectId.fromHexString(widget.categoryModel!.id));
+        if (category == null) return;
+
+        await realm.writeAsync(() {
+          category.name = _categoryName.trim();
+          category.bgColor = _bgColorSelected.toHex();
+          category.iconColor = _iconColorSelected.toHex();
+          category.iconCodePoint = _iconSelected?.codePoint;
+        });
+        realm.close();
+      }
+
+      final snackBar = SnackBar(
+        backgroundColor: const Color(0xFFf8fff8),
         content: Text(
-          'Created category successfully',
-          style: TextStyle(fontSize: 16, color: Color(0xFF188116)),
+          widget.isCreate ? 'Created category successfully' : 'Update category successfully',
+          style: const TextStyle(fontSize: 16, color: Color(0xFF188116)),
         ),
       );
 
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-      // reset data
-      setState(() {
-        _categoryName = '';
-        _iconSelected = null;
-        _colorSelected = const Color(0xFf9B009E);
-        _bgColorSelected = const Color(0xFFFC80FF);
-      });
     } catch (error) {
-      print("_handleCreateCategory: $error");
-      const snackBar = SnackBar(
+      print("_handleAddEditCategory: $error");
+      final snackBar = SnackBar(
         content: Text(
-          'Create category error',
-          style: TextStyle(fontSize: 16),
+          widget.isCreate ? 'Create category error' : 'Update category error',
+          style: const TextStyle(fontSize: 16),
         ),
       );
 
@@ -389,7 +413,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           SizedBox(
             height: 48,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () => Navigator.pop(context),
               child: Text(
                 "cancel".tr(),
                 style: TextStyle(fontSize: 16, color: UIContains.colorPrimary),
@@ -399,13 +423,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
           SizedBox(
             height: 48,
             child: ElevatedButton(
-              onPressed: _handleCreateCategory,
+              onPressed: _handleAddEditCategory,
               style: ElevatedButton.styleFrom(
                 backgroundColor: UIContains.colorPrimary,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
               ),
               child: Text(
-                "category_create".tr(),
+                widget.isCreate ? "category_create".tr() : "save".tr(),
                 style: const TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),

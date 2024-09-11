@@ -12,13 +12,13 @@ class CategoryEntityRealm extends _CategoryEntityRealm
   CategoryEntityRealm(
     ObjectId id,
     String name, {
-    String? color,
+    String? bgColor,
     String? iconColor,
     int? iconCodePoint,
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
-    RealmObjectBase.set(this, 'color', color);
+    RealmObjectBase.set(this, 'bgColor', bgColor);
     RealmObjectBase.set(this, 'iconColor', iconColor);
     RealmObjectBase.set(this, 'iconCodePoint', iconCodePoint);
   }
@@ -36,9 +36,10 @@ class CategoryEntityRealm extends _CategoryEntityRealm
   set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
-  String? get color => RealmObjectBase.get<String>(this, 'color') as String?;
+  String? get bgColor =>
+      RealmObjectBase.get<String>(this, 'bgColor') as String?;
   @override
-  set color(String? value) => RealmObjectBase.set(this, 'color', value);
+  set bgColor(String? value) => RealmObjectBase.set(this, 'bgColor', value);
 
   @override
   String? get iconColor =>
@@ -70,7 +71,7 @@ class CategoryEntityRealm extends _CategoryEntityRealm
     return <String, dynamic>{
       'id': id.toEJson(),
       'name': name.toEJson(),
-      'color': color.toEJson(),
+      'bgColor': bgColor.toEJson(),
       'iconColor': iconColor.toEJson(),
       'iconCodePoint': iconCodePoint.toEJson(),
     };
@@ -87,7 +88,7 @@ class CategoryEntityRealm extends _CategoryEntityRealm
         CategoryEntityRealm(
           fromEJson(id),
           fromEJson(name),
-          color: fromEJson(ejson['color']),
+          bgColor: fromEJson(ejson['bgColor']),
           iconColor: fromEJson(ejson['iconColor']),
           iconCodePoint: fromEJson(ejson['iconCodePoint']),
         ),
@@ -102,7 +103,7 @@ class CategoryEntityRealm extends _CategoryEntityRealm
         ObjectType.realmObject, CategoryEntityRealm, 'CategoryEntityRealm', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
-      SchemaProperty('color', RealmPropertyType.string, optional: true),
+      SchemaProperty('bgColor', RealmPropertyType.string, optional: true),
       SchemaProperty('iconColor', RealmPropertyType.string, optional: true),
       SchemaProperty('iconCodePoint', RealmPropertyType.int, optional: true),
     ]);
