@@ -11,6 +11,8 @@ class TaskPriority extends StatefulWidget {
 }
 
 class _TaskPriorityState extends State<TaskPriority> {
+  late int _priority = 1;
+
   @override
   void initState() {
     super.initState();
@@ -71,30 +73,26 @@ class _TaskPriorityState extends State<TaskPriority> {
         childAspectRatio: 1, // tỷ lệ khoảng cách giữa các hàng của item
       ),
       itemBuilder: (context, index) {
-        return _buildItemCategory(index);
+        return _buildItemCategory(index + 1);
       },
     );
   }
 
-  void _handleChooseCate(int index) {
-    // if (_isEditMode) {
-    //   Navigator.push(context, MaterialPageRoute(builder: (context) {
-    //     return CategoryScreen(isCreate: false, categoryModel: category);
-    //   }));
-    // } else {
-    //   Navigator.pop(context, category);
-    // }
+  void _handleChoosePriority(int index) {
+    setState(() {
+      _priority = index;
+    });
   }
 
   Widget _buildItemCategory(int index) {
     return GestureDetector(
-      onTap: () => _handleChooseCate(index),
+      onTap: () => _handleChoosePriority(index),
       child: Container(
         width: 64,
         height: 64,
-        margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 8, top: 10),
+        margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: UIContains.colorPrimary,
+          color: _priority == index ? UIContains.colorPrimary : const Color(0xFF272727),
           borderRadius: BorderRadius.circular(6),
         ),
         child: Column(
@@ -138,7 +136,7 @@ class _TaskPriorityState extends State<TaskPriority> {
             child: SizedBox(
               height: 48,
               child: ElevatedButton(
-                onPressed: () => {},
+                onPressed: () => Navigator.pop(context, {"priority": _priority}),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: UIContains.colorPrimary,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),

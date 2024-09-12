@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/ui/navigation/navigation.dart';
 import 'package:todo_list_app/ui/register/register.dart';
@@ -233,24 +234,19 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(right: 5),
-                child: Text(
-                  "login_not_account".tr(),
-                  style: TextStyle(fontSize: 12, color: Colors.white.withOpacity(0.87)),
-                ),
-              ),
-              GestureDetector(
-                onTap: _handleRegister,
-                child: Text(
-                  "register".tr(),
+          RichText(
+            text: TextSpan(
+              text: "login_not_account".tr(),
+              style: TextStyle(fontSize: 12, color: Colors.white.withOpacity(0.87)),
+              children: [
+                const WidgetSpan(child: SizedBox(width: 5)),
+                TextSpan(
+                  text: "register".tr(),
+                  recognizer: TapGestureRecognizer()..onTap = _handleRegister,
                   style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
+                )
+              ],
+            ),
           )
         ],
       ),

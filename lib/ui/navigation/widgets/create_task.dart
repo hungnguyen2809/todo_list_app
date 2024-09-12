@@ -15,6 +15,7 @@ class CreateTaskWidget extends StatefulWidget {
 }
 
 class _CreateTaskWidgetState extends State<CreateTaskWidget> {
+  late int? _priority;
   late DateTime? _dateTime;
   late CategoryModel? _category;
   late TextEditingController _nameController;
@@ -24,6 +25,7 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
   void initState() {
     super.initState();
     //
+    _priority = null;
     _dateTime = null;
     _category = null;
     _nameController = TextEditingController();
@@ -59,8 +61,9 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
           _buildTaskTitle(),
           _buildTaskNameField(),
           _buildTaskDescField(),
+          if (_priority != null) _buildTaskPreviewPriority(_priority!),
           if (_dateTime != null) _buildTaskPreviewDate(_dateTime!),
-          if (_category != null) _buildTaskPreviewCate(_category!),
+          if (_category != null) _buildTaskPreviewCategory(_category!),
           _buildTaskActionButton(),
         ],
       ),
@@ -112,7 +115,7 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
 
   Widget _buildTaskPreviewDate(DateTime dateTime) {
     return Container(
-      margin: const EdgeInsets.only(top: 14, bottom: 10),
+      margin: const EdgeInsets.only(bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -131,7 +134,7 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
     );
   }
 
-  Widget _buildTaskPreviewCate(CategoryModel category) {
+  Widget _buildTaskPreviewCategory(CategoryModel category) {
     return Container(
       margin: const EdgeInsets.only(bottom: 35),
       child: Column(
@@ -159,6 +162,27 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
                 : null,
           ),
           // Text(category.name, style: const TextStyle(fontSize: 14, color: Colors.white))
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTaskPreviewPriority(int priority) {
+    return Container(
+      margin: const EdgeInsets.only(top: 14, bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "${"task_priority".tr()} :",
+            style: const TextStyle(fontSize: 16, color: Colors.white),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            priority.toString(),
+            style: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.87)),
+          ),
         ],
       ),
     );
@@ -216,11 +240,14 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
       pageBuilder: (context, animation, animation2) => const TaskPriority(),
     );
 
-    // if (result != null && result is int) {
-    //   setState(() {
-    //     _category = result;
-    //   });
-    // }
+    if (result != null && result is Map<String, dynamic>) {
+      final priority = result['priority'];
+      if (priority != null && priority is int) {
+        setState(() {
+          _priority = priority;
+        });
+      }
+    }
   }
 
   Widget _buildTaskActionButton() {
@@ -244,7 +271,7 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
         ),
         IconButton(
           onPressed: _showChoosePriority,
-          icon: Icon(Icons.flag, color: Colors.white.withOpacity(0.87)),
+          icon: Icon(Icons.flag, color: _priority != null ? UIContains.colorPrimary : Colors.white.withOpacity(0.87)),
         ),
         const Spacer(),
         IconButton(
