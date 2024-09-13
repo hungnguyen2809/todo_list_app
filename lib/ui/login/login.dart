@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list_app/services/auth_service.dart';
 import 'package:todo_list_app/ui/login/bloc/login_cubit.dart';
 import 'package:todo_list_app/ui/navigation/navigation.dart';
 import 'package:todo_list_app/ui/register/register.dart';
@@ -15,7 +16,9 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       child: const LoginView(),
-      create: (context) => LoginCubit(),
+      create: (context) {
+        return LoginCubit(authService: AuthService());
+      },
     );
   }
 }
