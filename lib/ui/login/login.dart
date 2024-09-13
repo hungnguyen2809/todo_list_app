@@ -1,25 +1,42 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list_app/ui/login/bloc/login_cubit.dart';
 import 'package:todo_list_app/ui/navigation/navigation.dart';
 import 'package:todo_list_app/ui/register/register.dart';
 
 import '../../contains/ui.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      child: const LoginView(),
+      create: (context) => LoginCubit(),
+    );
+  }
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
   late bool _isDisabledBtn;
   late bool _passwordVisible;
   late String _username = '';
   late String _password = '';
   late TextEditingController _usernameController;
   late TextEditingController _passwordController;
+
+  final _formKey = GlobalKey<FormState>();
+  late AutovalidateMode _isValidModeForm;
 
   @override
   void initState() {
@@ -29,6 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordVisible = false;
     _usernameController = TextEditingController();
     _passwordController = TextEditingController();
+
+    _isValidModeForm = AutovalidateMode.disabled;
   }
 
   @override
@@ -42,16 +61,20 @@ class _LoginScreenState extends State<LoginScreen> {
           icon: const Icon(Icons.arrow_back_ios_outlined, color: Colors.white),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildTitleScreen(),
-            _buildUsernameField(),
-            _buildPasswordField(),
-            _buildActionButtons(context),
-          ],
+      body: Form(
+        key: _formKey,
+        autovalidateMode: _isValidModeForm,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTitleScreen(),
+              _buildUsernameField(),
+              _buildPasswordField(),
+              _buildActionButtons(context),
+            ],
+          ),
         ),
       ),
     );
@@ -103,6 +126,12 @@ class _LoginScreenState extends State<LoginScreen> {
               _username = text;
               _checkDisableBtnLogin();
             },
+            validator: (String? text) {
+              if (text == null || text.isEmpty) {
+                return 'login_username_required'.tr();
+              }
+              return null;
+            },
             style: const TextStyle(color: Colors.white, fontSize: 16),
             decoration: InputDecoration(
               hintText: "login_username_hint".tr(),
@@ -134,6 +163,12 @@ class _LoginScreenState extends State<LoginScreen> {
               _password = text;
               _checkDisableBtnLogin();
             },
+            validator: (String? text) {
+              if (text == null || text.isEmpty) {
+                return 'login_password_required'.tr();
+              }
+              return null;
+            },
             style: const TextStyle(color: Colors.white, fontSize: 16),
             decoration: InputDecoration(
               hintText: "login_password_hint".tr(),
@@ -158,9 +193,23 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleLogin() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return const MainNavigation();
-    }));
+    final loginCubit = BlocProvider.of<LoginCubit>(context);
+    loginCubit.onLogin(_username.trim(), _password.trim());
+
+    return;
+
+    if (_isValidModeForm == AutovalidateMode.disabled) {
+      setState(() {
+        _isValidModeForm = AutovalidateMode.always;
+      });
+    }
+
+    final isValid = _formKey.currentState?.validate() ?? false;
+    if (isValid) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return const MainNavigation();
+      }));
+    }
   }
 
   void _handleRegister() {

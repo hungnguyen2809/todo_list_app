@@ -14,17 +14,22 @@
 
   "login_username": "Tài khoản",
   "login_username_hint": "Nhập tài khoản của bạn",
+  "login_username_required": "Vui lòng nhập tài khoản",
   "login_password": "Mật khẩu",
   "login_password_hint": "Nhập mật khẩu của bạn",
+  "login_password_required": "Vui lòng nhập mật khẩu",
   "login_with": "Đăng nhập với {}",
   "login_not_account": "Bạn chưa có tài khoản ?",
 
   "register_username": "Tài khoản",
   "register_username_hint": "Nhập tài khoản của bạn",
+  "register_username_required": "Vui lòng nhập tài khoản",
   "register_password": "Mật khẩu",
   "register_password_hint": "Nhập mật khẩu của bạn",
+  "register_password_required": "Vui lòng nhập mật khẩu",
   "register_password_conf": "Xác nhận mật khẩu",
   "register_password_conf_hint": "Nhập mật khẩu của bạn",
+  "register_password_conf_required": "Vui lòng nhập mật khẩu",
   "register_with": "Đăng ký với {}",
   "register_have_account": "Bạn đã có tài khoản ?",
 
